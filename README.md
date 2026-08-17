@@ -1,1 +1,1312 @@
-# wqdwersdfwef
+[estudaf_cil_central_de_estudos_foco (1).html](https://github.com/user-attachments/files/31140715/estudaf_cil_central_de_estudos_foco.1.html)
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudaFácil - Central de Estudos & Foco</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            cyan: '#06b6d4',
+                            lime: '#10b981',
+                            yellow: '#f59e0b',
+                            dark: '#0b0f19',
+                            card: '#131b2e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 4s infinite ease-in-out',
+                        'spin-slow': 'spin 12s linear infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 0.6, filter: 'blur(20px)' },
+                            '50%': { opacity: 0.9, filter: 'blur(30px)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #07090e;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-border-purple {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            border-color: rgba(6, 182, 212, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+
+        /* Perspective 3D Flip Card */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Device Simulator Frame Styles */
+        .device-wrapper {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: 0 auto;
+        }
+
+        .device-mobile {
+            width: 100%;
+            max-width: 385px;
+            height: calc(100vh - 80px);
+            max-height: 780px;
+            min-height: 500px;
+            border-radius: 48px;
+            border: 11px solid #1e293b;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 40px rgba(168, 85, 247, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-tablet {
+            width: 100%;
+            max-width: 720px;
+            height: calc(100vh - 80px);
+            max-height: 850px;
+            min-height: 550px;
+            border-radius: 36px;
+            border: 12px solid #1e293b;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 40px rgba(6, 182, 212, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-desktop {
+            width: 100%;
+            min-height: calc(100vh - 65px);
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Mobile Notch / Dynamic Island */
+        .notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 24px;
+            background-color: #000000;
+            border-radius: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+
+        .notch-camera {
+            width: 10px;
+            height: 10px;
+            background: #090d16;
+            border-radius: 50%;
+        }
+
+        .notch-speaker {
+            width: 35px;
+            height: 4px;
+            background: #090d16;
+            border-radius: 4px;
+        }
+
+        /* Glow effects */
+        .glow-bg {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* LIGHT MODE THEME OVERRIDES */
+        html:not(.dark) body {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+        html:not(.dark) header {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-color: rgba(226, 232, 240, 0.9);
+        }
+        html:not(.dark) .device-wrapper {
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+        html:not(.dark) .glass-panel {
+            background: rgba(255, 255, 255, 0.88);
+            border-color: rgba(226, 232, 240, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        html:not(.dark) .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.95) 100%);
+            border-color: rgba(226, 232, 240, 0.9);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.08);
+        }
+        html:not(.dark) #app-internal-nav, 
+        html:not(.dark) #app-bottom-nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-color: rgba(226, 232, 240, 0.9);
+        }
+        html:not(.dark) .text-white {
+            color: #0f172a !important;
+        }
+        html:not(.dark) .text-slate-100 {
+            color: #1e293b !important;
+        }
+        html:not(.dark) .text-slate-200 {
+            color: #334155 !important;
+        }
+        html:not(.dark) .text-slate-400 {
+            color: #64748b !important;
+        }
+        html:not(.dark) .bg-slate-900, 
+        html:not(.dark) .bg-slate-950 {
+            background-color: #f8fafc !important;
+        }
+        html:not(.dark) .bg-slate-900\/60 {
+            background-color: rgba(241, 245, 249, 0.8) !important;
+        }
+        html:not(.dark) .border-slate-800 {
+            border-color: #e2e8f0 !important;
+        }
+        html:not(.dark) input, 
+        html:not(.dark) select, 
+        html:not(.dark) textarea {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-purple-500 selection:text-white">
+
+    <!-- Ambient Glow Lights -->
+    <div class="glow-bg bg-purple-600/15 top-10 left-10 animate-pulse-glow"></div>
+    <div class="glow-bg bg-cyan-600/15 bottom-10 right-10 animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+
+    <!-- TOP PROTOTYPE BAR: SIMULADOR DE DISPOSITIVOS -->
+    <header class="sticky top-0 z-50 w-full bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 py-2.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-500 via-pink-500 to-cyan-400 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-purple-500/30">
+                🎓
+            </div>
+            <div>
+                <span class="font-extrabold text-sm tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">ESTUDAFÁCIL</span>
+                <span class="hidden sm:inline-block text-[10px] bg-purple-500/20 text-purple-300 font-mono px-2 py-0.5 rounded-full border border-purple-500/30 ml-2">PROTOTYPE v2.4</span>
+            </div>
+        </div>
+
+        <!-- Seletor de Tela (Celular / Tablet / PC) -->
+        <div class="flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-slate-800">
+            <button onclick="setDeviceMode('mobile')" id="btn-device-mobile" title="Modo Celular (iPhone 15 Pro)" class="device-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span class="hidden md:inline">Celular</span>
+            </button>
+            <button onclick="setDeviceMode('tablet')" id="btn-device-tablet" title="Modo Tablet" class="device-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-tablet-screen-button"></i>
+                <span class="hidden md:inline">Tablet</span>
+            </button>
+            <button onclick="setDeviceMode('desktop')" id="btn-device-desktop" title="Modo Computador / Desktop" class="device-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-desktop"></i>
+                <span class="hidden md:inline">Computador</span>
+            </button>
+        </div>
+
+        <!-- Theme & Audio Controls -->
+        <div class="flex items-center gap-2">
+            <button onclick="toggleTheme()" id="btn-theme-toggle" title="Alternar Modo Claro / Escuro" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-purple-300 text-xs font-bold flex items-center gap-1.5 transition border border-slate-700 shadow-sm">
+                <i id="theme-toggle-icon" class="fa-solid fa-moon text-purple-400"></i>
+                <span id="theme-toggle-text" class="hidden sm:inline">Escuro</span>
+            </button>
+
+            <button onclick="triggerConfetti()" title="Testar XP Victory Particles" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold flex items-center gap-1 transition border border-slate-700">
+                <i class="fa-solid fa-bolt"></i>
+                <span class="hidden sm:inline">+XP</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- WRAPPER PRINCIPAL DO DISPOSITIVO -->
+    <div class="flex-1 flex items-center justify-center p-2 sm:p-4 relative z-10 w-full h-[calc(100vh-65px)] overflow-hidden">
+        
+        <!-- DEVICE FRAME CONTAINER -->
+        <div id="device-frame" class="device-wrapper device-mobile bg-slate-950 text-slate-100 flex flex-col w-full relative overflow-hidden">
+            
+            <!-- Mobile Notch (visível apenas em telas simulação mobile/tablet) -->
+            <div id="device-notch" class="notch">
+                <div class="notch-speaker"></div>
+                <div class="notch-camera"></div>
+            </div>
+
+            <!-- iOS Home Indicator Bar -->
+            <div id="device-home-bar" class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-400/50 rounded-full z-50 pointer-events-none"></div>
+
+            <!-- APP NAVIGATION BAR FIXED TOP -->
+            <nav id="app-internal-nav" class="shrink-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80 px-4 pt-9 pb-3 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-500 to-cyan-500 p-0.5 animate-pulse-glow">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-black text-xs text-purple-400">
+                            🎓
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-black text-sm tracking-wide bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">EstudaFácil</h1>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Aprenda & Evolua</p>
+                    </div>
+                </div>
+
+                <!-- User XP & Level Badge -->
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/60 border border-purple-500/40 text-purple-300 font-mono text-xs font-extrabold shadow-sm">
+                        <i class="fa-solid fa-fire text-amber-400 animate-bounce"></i>
+                        <span id="streak-count">7</span>d
+                    </div>
+                    <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-extrabold">
+                        <i class="fa-solid fa-gem text-cyan-400"></i>
+                        <span id="user-xp">1,450</span> XP
+                    </div>
+                </div>
+            </nav>
+
+            <!-- APP SCROLLABLE MIDDLE CONTENT -->
+            <div class="flex-1 overflow-y-auto relative custom-scroll">
+                <main class="p-4 space-y-6 pb-6">
+
+                    <!-- TAB 1: DASHBOARD & GAMIFICATION -->
+                    <section id="app-tab-dashboard" class="app-tab space-y-5">
+                        
+                        <!-- User Hero Profile Card -->
+                        <div class="glass-card rounded-3xl p-5 border border-purple-500/30 relative overflow-hidden space-y-4">
+                            <div class="absolute -right-10 -bottom-10 w-36 h-36 bg-purple-500/20 rounded-full blur-2xl"></div>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="relative shrink-0">
+                                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500 via-pink-500 to-cyan-400 p-1 shadow-lg shadow-purple-500/30">
+                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar" class="w-full h-full object-cover rounded-[12px]">
+                                    </div>
+                                    <span class="absolute -bottom-1 -right-1 bg-cyan-400 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase shadow">Lv.8</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h2 class="text-lg font-black tracking-tight text-white flex items-center gap-2 truncate">
+                                        Alex Silva <span class="text-xs text-purple-400 font-bold">PRO</span>
+                                    </h2>
+                                    <p class="text-xs text-slate-400 truncate">Trilha Ativa: <span class="text-cyan-400 font-bold">Dev Fullstack & Math</span></p>
+                                    
+                                    <!-- XP Progress Bar -->
+                                    <div class="mt-2 space-y-1">
+                                        <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                                            <span>Nível 8</span>
+                                            <span class="text-purple-300 font-bold">1,450 / 2,000 XP</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 rounded-full h-2.5 p-0.5 border border-slate-800">
+                                            <div id="xp-bar" class="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: 72.5%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fast Actions Grid -->
+                            <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
+                                <div class="p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">Concluídas</span>
+                                    <span id="dash-completed" class="text-base font-black text-emerald-400">12</span>
+                                </div>
+                                <div class="p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">Em Andamento</span>
+                                    <span id="dash-inprogress" class="text-base font-black text-amber-400">4</span>
+                                </div>
+                                <div class="p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">A Fazer</span>
+                                    <span id="dash-todo" class="text-base font-black text-purple-400">5</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Banner Destaque: Pomodoro & Audio Synth -->
+                        <div onclick="switchTab('focus')" class="cursor-pointer glass-card p-4 rounded-3xl border border-cyan-500/30 flex items-center justify-between gap-3 group hover:border-cyan-400 transition">
+                            <div class="space-y-1 min-w-0">
+                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-cyan-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-headphones"></i> Sound & Focus Zone
+                                </span>
+                                <h3 class="font-extrabold text-sm text-white group-hover:text-cyan-300 transition truncate">Sessão Pomodoro + Lo-Fi Rain Synth</h3>
+                                <p class="text-xs text-slate-400 truncate">Inicie o temporizador de 25m com ruído binaural</p>
+                            </div>
+                            <div class="w-10 h-10 shrink-0 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg font-black group-hover:scale-110 transition">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+
+                        <!-- Quests Diárias (Missões com Recompensa XP) -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-black text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-crosshairs text-pink-500"></i> Missões Diárias (+XP)
+                                </h3>
+                                <span class="text-[10px] text-slate-400 font-bold">Reseta em 8h</span>
+                            </div>
+
+                            <div class="space-y-2.5">
+                                <div class="glass-panel p-3 rounded-2xl flex items-center justify-between gap-2 border-l-4 border-l-purple-500">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <button onclick="claimQuestXP(this, 50)" class="w-7 h-7 shrink-0 rounded-lg bg-slate-800 border border-slate-700 hover:border-purple-500 flex items-center justify-center text-xs text-transparent hover:text-purple-400 transition">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                        <div class="min-w-0">
+                                            <h4 class="text-xs font-bold text-slate-200 truncate">Completar 1 Ciclo Pomodoro</h4>
+                                            <p class="text-[10px] text-slate-400 truncate">Foco total de 25 minutos</p>
+                                        </div>
+                                    </div>
+                                    <span class="shrink-0 text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded-lg border border-amber-500/20">+50 XP</span>
+                                </div>
+
+                                <div class="glass-panel p-3 rounded-2xl flex items-center justify-between gap-2 border-l-4 border-l-cyan-500">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <button onclick="claimQuestXP(this, 100)" class="w-7 h-7 shrink-0 rounded-lg bg-slate-800 border border-slate-700 hover:border-cyan-500 flex items-center justify-center text-xs text-transparent hover:text-cyan-400 transition">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                        <div class="min-w-0">
+                                            <h4 class="text-xs font-bold text-slate-200 truncate">Revisar 5 Flashcards Difíceis</h4>
+                                            <p class="text-[10px] text-slate-400 truncate">Memorização ativa em Álgebra/Dev</p>
+                                        </div>
+                                    </div>
+                                    <span class="shrink-0 text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded-lg border border-amber-500/20">+100 XP</span>
+                                </div>
+
+                                <div class="glass-panel p-3 rounded-2xl flex items-center justify-between gap-2 border-l-4 border-l-pink-500">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <button onclick="claimQuestXP(this, 75)" class="w-7 h-7 shrink-0 rounded-lg bg-slate-800 border border-slate-700 hover:border-pink-500 flex items-center justify-center text-xs text-transparent hover:text-pink-400 transition">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                        <div class="min-w-0">
+                                            <h4 class="text-xs font-bold text-slate-200 truncate">Avançar Nó de Pré-requisito</h4>
+                                            <p class="text-[10px] text-slate-400 truncate">Completar 1 matéria na Árvore</p>
+                                        </div>
+                                    </div>
+                                    <span class="shrink-0 text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded-lg border border-amber-500/20">+75 XP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- TAB 2: ÁRVORE DE PRÉ-REQUISITOS (SKILL MAP) -->
+                    <section id="app-tab-tree" class="app-tab hidden space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-base font-black text-white">Árvore de Pré-requisitos</h2>
+                                <p class="text-xs text-slate-400">O que você precisa aprender primeiro para dominar a matéria alvo</p>
+                            </div>
+                            <select id="tree-subject-select" onchange="changeTreeSubject(this.value)" class="bg-slate-900 border border-slate-700 text-xs text-purple-300 font-bold px-3 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <option value="algebra">📐 Álgebra Linear</option>
+                                <option value="webdev">💻 Fullstack Web Dev</option>
+                                <option value="calculo">📈 Cálculo I</option>
+                            </select>
+                        </div>
+
+                        <!-- Display do Mapa de Nós Interativo -->
+                        <div id="tree-nodes-wrapper" class="space-y-4 pt-2">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </section>
+
+                    <!-- TAB 3: FLASHCARDS COM DIFICULDADE -->
+                    <section id="app-tab-flashcards" class="app-tab hidden space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-base font-black text-white">Flashcard Arena</h2>
+                                <p class="text-xs text-slate-400">Memorização ativa com níveis de dificuldade</p>
+                            </div>
+                            <button onclick="openAddCardModal()" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-xs rounded-xl shadow-md hover:opacity-90 transition flex items-center gap-1">
+                                <i class="fa-solid fa-plus"></i> Novo
+                            </button>
+                        </div>
+
+                        <!-- Filtro de Dificuldade -->
+                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+                            <button onclick="filterCards('all')" class="fc-filter-btn active bg-purple-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">Todas</button>
+                            <button onclick="filterCards('Fácil')" class="fc-filter-btn bg-slate-900 border border-emerald-500/40 text-emerald-400 text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">🟢 Fácil</button>
+                            <button onclick="filterCards('Médio')" class="fc-filter-btn bg-slate-900 border border-amber-500/40 text-amber-400 text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">🟡 Médio</button>
+                            <button onclick="filterCards('Difícil')" class="fc-filter-btn bg-slate-900 border border-rose-500/40 text-rose-400 text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">🔴 Difícil</button>
+                        </div>
+
+                        <!-- 3D FLIP FLASHCARD BOX -->
+                        <div class="perspective-1000 w-full h-72 cursor-pointer" onclick="flipCard()">
+                            <div id="flashcard-inner-box" class="relative w-full h-full duration-500 transform-style-3d glass-card rounded-3xl border border-purple-500/30">
+                                
+                                <!-- Card Front -->
+                                <div class="absolute inset-0 w-full h-full p-6 backface-hidden flex flex-col justify-between">
+                                    <div class="flex items-center justify-between">
+                                        <span id="fc-topic-tag" class="text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-purple-950/80 text-purple-300 border border-purple-500/30">Álgebra Linear</span>
+                                        <span id="fc-diff-tag" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">🟢 Fácil</span>
+                                    </div>
+                                    
+                                    <div class="text-center my-auto space-y-2">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Pergunta</span>
+                                        <h3 id="fc-front-text" class="text-lg font-extrabold text-white leading-snug">O que é uma Matriz Identidade?</h3>
+                                    </div>
+
+                                    <div class="flex items-center justify-between text-xs text-slate-400">
+                                        <button onclick="event.stopPropagation(); toggleHint()" class="text-amber-400 font-bold flex items-center gap-1 hover:underline">
+                                            <i class="fa-solid fa-lightbulb"></i> Ver Dica
+                                        </button>
+                                        <span class="text-[10px] font-bold"><i class="fa-solid fa-rotate"></i> Toque para virar</span>
+                                    </div>
+                                </div>
+
+                                <!-- Card Back -->
+                                <div class="absolute inset-0 w-full h-full p-6 bg-slate-900 border-2 border-cyan-500 rounded-3xl backface-hidden rotate-y-180 flex flex-col justify-between text-white">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[9px] font-extrabold uppercase tracking-widest text-cyan-400">Explicação / Resposta</span>
+                                        <span class="text-xs font-bold text-cyan-300">Resposta</span>
+                                    </div>
+
+                                    <div class="text-center my-auto">
+                                        <p id="fc-back-text" class="text-base font-bold leading-relaxed text-slate-100">
+                                            Uma matriz quadrada onde todos os elementos da diagonal principal são iguais a 1 e todos os demais elementos são iguais a 0.
+                                        </p>
+                                    </div>
+
+                                    <div class="text-center text-[10px] text-slate-400 font-bold">
+                                        Avalie abaixo para atualizar o nível de maestria
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Card Hint Box -->
+                        <div id="fc-hint-container" class="hidden glass-panel p-3 rounded-2xl border border-amber-500/40 text-xs text-amber-200 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400 text-sm"></i>
+                            <span id="fc-hint-text">Pense no elemento neutro da multiplicação.</span>
+                        </div>
+
+                        <!-- Dificuldade Evaluation Bar -->
+                        <div class="glass-panel p-3 rounded-2xl border border-slate-800 space-y-2">
+                            <p class="text-center text-[10px] font-bold uppercase tracking-wider text-slate-400">Como foi sua resposta?</p>
+                            <div class="grid grid-cols-4 gap-1.5">
+                                <button onclick="rateCard('Errei')" class="py-2 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-bold transition flex flex-col items-center">
+                                    <span>❌ Errei</span>
+                                </button>
+                                <button onclick="rateCard('Difícil')" class="py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded-xl text-xs font-bold transition flex flex-col items-center">
+                                    <span>🔴 Difícil</span>
+                                </button>
+                                <button onclick="rateCard('Médio')" class="py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-bold transition flex flex-col items-center">
+                                    <span>🟡 Médio</span>
+                                </button>
+                                <button onclick="rateCard('Fácil')" class="py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-xs font-bold transition flex flex-col items-center">
+                                    <span>🟢 Fácil</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Next / Prev Controls -->
+                        <div class="flex items-center justify-between text-xs font-bold px-1">
+                            <button onclick="prevCard()" class="text-slate-400 hover:text-purple-400 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-left"></i> Anterior
+                            </button>
+                            <span id="fc-counter" class="text-purple-300 font-mono">Card 1 de 5</span>
+                            <button onclick="nextCard()" class="text-slate-400 hover:text-purple-400 flex items-center gap-1">
+                                Próximo <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- TAB 4: POMODORO & CYBER-AUDIO SYNTH -->
+                    <section id="app-tab-focus" class="app-tab hidden space-y-5">
+                        <div class="text-center space-y-1">
+                            <h2 class="text-base font-black text-white">Timer Cyber-Pomodoro</h2>
+                            <p class="text-xs text-slate-400">Modo de alta concentração com som ambiente binaural</p>
+                        </div>
+
+                        <!-- Timer Circular Display -->
+                        <div class="glass-card p-6 rounded-3xl border border-purple-500/40 text-center space-y-4 relative overflow-hidden">
+                            <div class="relative w-48 h-48 mx-auto flex items-center justify-center">
+                                <!-- Progress Ring -->
+                                <svg class="w-full h-full transform -rotate-90">
+                                    <circle cx="96" cy="96" r="80" stroke="#1e293b" stroke-width="12" fill="transparent"/>
+                                    <circle id="timer-progress-circle" cx="96" cy="96" r="80" stroke="#a855f7" stroke-width="12" stroke-dasharray="502" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" class="transition-all duration-1000"/>
+                                </svg>
+                                <div class="absolute flex flex-col items-center justify-center space-y-1">
+                                    <span id="timer-display" class="font-mono text-4xl font-black tracking-tight text-white">25:00</span>
+                                    <span id="timer-mode-label" class="text-[10px] font-extrabold uppercase tracking-widest text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-500/30">Modo Foco</span>
+                                </div>
+                            </div>
+
+                            <!-- Controls -->
+                            <div class="flex items-center justify-center gap-3">
+                                <button onclick="toggleTimer()" id="btn-timer-start" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold text-sm shadow-lg shadow-purple-500/30 hover:opacity-90 transition flex items-center gap-2">
+                                    <i class="fa-solid fa-play"></i> Iniciar
+                                </button>
+                                <button onclick="resetTimer()" class="p-2.5 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ambient Sound Generator (Web Audio API Synth) -->
+                        <div class="glass-panel p-4 rounded-3xl border border-slate-800 space-y-3">
+                            <h3 class="text-xs font-black text-white flex items-center justify-between">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-sliders text-cyan-400"></i> Gerador de Som Binaural / Chuva</span>
+                                <span id="audio-status-tag" class="text-[9px] text-slate-500 font-mono">DESLIGADO</span>
+                            </h3>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="toggleAmbientSound('rain')" id="btn-sound-rain" class="sound-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-left transition space-y-1">
+                                    <i class="fa-solid fa-cloud-rain text-cyan-400 text-base"></i>
+                                    <span class="block text-xs font-bold text-white">Ruído Chuva Lo-Fi</span>
+                                    <span class="block text-[9px] text-slate-400">Frequência relaxante</span>
+                                </button>
+
+                                <button onclick="toggleAmbientSound('binaural')" id="btn-sound-binaural" class="sound-btn p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:border-purple-500/50 text-left transition space-y-1">
+                                    <i class="fa-solid fa-wave-square text-purple-400 text-base"></i>
+                                    <span class="block text-xs font-bold text-white">Binaural 40Hz</span>
+                                    <span class="block text-[9px] text-slate-400">Onda Gamma de Foco</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- TAB 5: AI STUDY BUDDY & CHAT -->
+                    <section id="app-tab-ai" class="app-tab hidden space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-500 flex items-center justify-center text-xs text-slate-950 font-black">
+                                    🤖
+                                </div>
+                                <div>
+                                    <h2 class="text-xs font-black text-white">Nova AI - Tutor de Estudos</h2>
+                                    <p class="text-[10px] text-emerald-400 font-mono flex items-center gap-1">● Online e pronto</p>
+                                </div>
+                            </div>
+                            <span class="text-[9px] bg-cyan-950 text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/30">GPT-4o Study</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="ai-chat-messages" class="glass-panel p-3 rounded-2xl border border-slate-800 h-64 overflow-y-auto space-y-3 text-xs custom-scroll">
+                            <div class="flex items-start gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-purple-600 flex items-center justify-center text-[10px] font-bold text-white shrink-0">AI</div>
+                                <div class="bg-slate-900 p-2.5 rounded-2xl rounded-tl-none border border-slate-800 text-slate-200">
+                                    Olá, Alex! Estou pronto para te ajudar com **Álgebra Linear**, **Cálculo** ou **Programação Web**. Qual tópico quer simplificar agora?
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input Form -->
+                        <form onsubmit="handleAIChatSubmit(event)" class="flex gap-2">
+                            <input type="text" id="ai-chat-input" placeholder="Pergunte ex: 'Explique Vetores'..." required class="flex-1 bg-slate-900 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <button type="submit" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xs rounded-xl shadow-md hover:opacity-90 transition">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </section>
+
+                </main>
+            </div>
+
+            <!-- BOTTOM NAV BAR FIXED AT BOTTOM OF DEVICE FRAME -->
+            <div id="app-bottom-nav" class="shrink-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-2 pb-5 flex items-center justify-around">
+                <button onclick="switchTab('dashboard')" id="nav-tab-dashboard" class="app-nav-btn flex flex-col items-center py-1 px-3 rounded-xl text-purple-400 font-bold transition">
+                    <i class="fa-solid fa-house text-base"></i>
+                    <span class="text-[9px] mt-0.5">Início</span>
+                </button>
+                <button onclick="switchTab('tree')" id="nav-tab-tree" class="app-nav-btn flex flex-col items-center py-1 px-3 rounded-xl text-slate-500 hover:text-purple-400 font-bold transition">
+                    <i class="fa-solid fa-sitemap text-base"></i>
+                    <span class="text-[9px] mt-0.5">Árvore</span>
+                </button>
+                <button onclick="switchTab('flashcards')" id="nav-tab-flashcards" class="app-nav-btn flex flex-col items-center py-1 px-3 rounded-xl text-slate-500 hover:text-purple-400 font-bold transition">
+                    <i class="fa-solid fa-layer-group text-base"></i>
+                    <span class="text-[9px] mt-0.5">Cards</span>
+                </button>
+                <button onclick="switchTab('focus')" id="nav-tab-focus" class="app-nav-btn flex flex-col items-center py-1 px-3 rounded-xl text-slate-500 hover:text-purple-400 font-bold transition">
+                    <i class="fa-solid fa-stopwatch text-base"></i>
+                    <span class="text-[9px] mt-0.5">Foco</span>
+                </button>
+                <button onclick="switchTab('ai')" id="nav-tab-ai" class="app-nav-btn flex flex-col items-center py-1 px-3 rounded-xl text-slate-500 hover:text-purple-400 font-bold transition">
+                    <i class="fa-solid fa-robot text-base"></i>
+                    <span class="text-[9px] mt-0.5">Nova AI</span>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL: NOVO FLASHCARD -->
+    <div id="modal-add-fc" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-purple-500/40 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-sm text-white">Criar Flashcard</h3>
+                <button onclick="closeModal('modal-add-fc')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="saveNewFlashcard(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Pergunta (Frente)</label>
+                    <input type="text" id="new-fc-front" required placeholder="Ex: Qual a fórmula de Bhaskara?" class="w-full bg-slate-900 border border-slate-800 text-xs text-white rounded-xl p-2.5 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Resposta (Verso)</label>
+                    <textarea id="new-fc-back" required placeholder="Ex: x = (-b ± √Δ) / 2a" class="w-full bg-slate-900 border border-slate-800 text-xs text-white rounded-xl p-2.5 focus:ring-2 focus:ring-purple-500 focus:outline-none h-16 resize-none"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Dificuldade</label>
+                        <select id="new-fc-diff" class="w-full bg-slate-900 border border-slate-800 text-xs text-white rounded-xl p-2.5">
+                            <option value="Fácil">🟢 Fácil</option>
+                            <option value="Médio" selected>🟡 Médio</option>
+                            <option value="Difícil">🔴 Difícil</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Dica (Opcional)</label>
+                        <input type="text" id="new-fc-hint" placeholder="Ex: Lembre do Delta..." class="w-full bg-slate-900 border border-slate-800 text-xs text-white rounded-xl p-2.5">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-add-fc')" class="px-3 py-1.5 text-xs text-slate-400 font-bold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition">Salvar Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-box" class="fixed top-14 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const appState = {
+            xp: 1450,
+            streak: 7,
+            deviceMode: 'mobile', // 'mobile', 'tablet', 'desktop'
+            theme: 'dark', // 'dark' or 'light'
+            activeTab: 'dashboard',
+            treeSubject: 'algebra',
+            subjects: {
+                algebra: {
+                    title: 'Álgebra Linear',
+                    nodes: [
+                        { id: 'fractions', title: '1. Frações & MMC', status: 'completed', difficulty: 'Fácil', desc: 'Operações básicas com frações e denominadores.' },
+                        { id: 'eq2deg', title: '2. Equação do 2º Grau', status: 'completed', difficulty: 'Médio', desc: 'Fórmula de Bhaskara, raízes e fatoração.' },
+                        { id: 'systems', title: '3. Sistemas Lineares', status: 'in_progress', difficulty: 'Médio', desc: 'Escalonamento gaussiano e substituição.' },
+                        { id: 'vectors', title: '4. Vetores (R² e R³)', status: 'in_progress', difficulty: 'Médio', desc: 'Produto escalar, vetorial e normas.' },
+                        { id: 'algebra_main', title: '🎯 Espaços Vetoriais', status: 'todo', difficulty: 'Difícil', desc: 'Transformações lineares e autovalores.' }
+                    ]
+                },
+                webdev: {
+                    title: 'Fullstack Web Dev',
+                    nodes: [
+                        { id: 'html_css', title: '1. HTML5 & CSS3 Flexbox', status: 'completed', difficulty: 'Fácil', desc: 'Estruturação e layouts responsivos.' },
+                        { id: 'js_base', title: '2. JavaScript ES6+ & DOM', status: 'completed', difficulty: 'Médio', desc: 'Async/Await, Arrays e manipulação.' },
+                        { id: 'react_core', title: '3. React & Tailwind CSS', status: 'in_progress', difficulty: 'Médio', desc: 'Hooks, componentes e estado.' },
+                        { id: 'backend_node', title: '🎯 Node.js & REST APIs', status: 'todo', difficulty: 'Difícil', desc: 'Express, JWT e bancos de dados SQL.' }
+                    ]
+                },
+                calculo: {
+                    title: 'Cálculo I',
+                    nodes: [
+                        { id: 'trig', title: '1. Trigonometria Fundamental', status: 'completed', difficulty: 'Fácil', desc: 'Círculo trigonométrico e identidades.' },
+                        { id: 'funcs', title: '2. Funções & Gráficos', status: 'completed', difficulty: 'Fácil', desc: 'Domínio, imagem e inversas.' },
+                        { id: 'limits', title: '3. Limites & Continuidade', status: 'in_progress', difficulty: 'Médio', desc: 'Limites laterais e indeterminações.' },
+                        { id: 'derivs', title: '🎯 Derivadas & Aplicações', status: 'todo', difficulty: 'Difícil', desc: 'Regra da cadeia e taxas de variação.' }
+                    ]
+                }
+            },
+            flashcards: [
+                { id: 1, topic: 'Álgebra Linear', diff: 'Fácil', front: 'O que é uma Matriz Identidade?', back: 'Uma matriz quadrada onde todos os elementos da diagonal principal são iguais a 1 e os demais são 0.', hint: 'Elemento neutro do produto matricial.' },
+                { id: 2, topic: 'Álgebra Linear', diff: 'Médio', front: 'Quando dois vetores são considerados Ortogonais?', back: 'Quando o seu produto escalar é igual a zero (u · v = 0).', hint: 'Ângulo de 90 graus entre eles.' },
+                { id: 3, topic: 'Equação do 2º Grau', diff: 'Fácil', front: 'Qual o valor do Delta (Δ) na fórmula de Bhaskara?', back: 'Δ = b² - 4ac. Se Δ > 0 possui duas raízes reais distintas.', hint: 'B ao quadrado menos 4 a c.' },
+                { id: 4, topic: 'Web Dev', diff: 'Médio', front: 'O que faz o método .map() em JavaScript?', back: 'Cria um novo array com os resultados da chamada de uma função sobre cada elemento do array original.', hint: 'Transforma cada item do array.' }
+            ],
+            currentFCIndex: 0,
+            activeFCFilter: 'all',
+            // Pomodoro Timer
+            timerSeconds: 1500,
+            timerTotal: 1500,
+            timerInterval: null,
+            timerRunning: false,
+            // Web Audio API Synth
+            audioCtx: null,
+            activeAudioType: null,
+            oscillator: null,
+            gainNode: null
+        };
+
+        function setDeviceMode(mode) {
+            appState.deviceMode = mode;
+            const frame = document.getElementById('device-frame');
+            const notch = document.getElementById('device-notch');
+            const homeBar = document.getElementById('device-home-bar');
+            const internalNav = document.getElementById('app-internal-nav');
+            const bottomNav = document.getElementById('app-bottom-nav');
+
+            document.querySelectorAll('.device-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`btn-device-${mode}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'shadow-md');
+                activeBtn.classList.remove('text-slate-400');
+            }
+
+            frame.className = 'device-wrapper bg-slate-950 text-slate-100 flex flex-col w-full relative overflow-hidden ';
+
+            if (mode === 'mobile') {
+                frame.classList.add('device-mobile');
+                if (notch) notch.style.display = 'flex';
+                if (homeBar) homeBar.style.display = 'block';
+                if (internalNav) {
+                    internalNav.classList.remove('pt-3');
+                    internalNav.classList.add('pt-9');
+                }
+                if (bottomNav) {
+                    bottomNav.classList.remove('pb-2');
+                    bottomNav.classList.add('pb-5');
+                }
+            } else if (mode === 'tablet') {
+                frame.classList.add('device-tablet');
+                if (notch) notch.style.display = 'flex';
+                if (homeBar) homeBar.style.display = 'block';
+                if (internalNav) {
+                    internalNav.classList.remove('pt-3');
+                    internalNav.classList.add('pt-9');
+                }
+                if (bottomNav) {
+                    bottomNav.classList.remove('pb-2');
+                    bottomNav.classList.add('pb-5');
+                }
+            } else {
+                frame.classList.add('device-desktop');
+                if (notch) notch.style.display = 'none';
+                if (homeBar) homeBar.style.display = 'none';
+                if (internalNav) {
+                    internalNav.classList.remove('pt-9');
+                    internalNav.classList.add('pt-3');
+                }
+                if (bottomNav) {
+                    bottomNav.classList.remove('pb-5');
+                    bottomNav.classList.add('pb-2');
+                }
+            }
+
+            showToast(`Simulador alterado para modo: ${mode.toUpperCase()}`);
+        }
+
+        // TOGGLE MODO CLARO / ESCURO
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const themeIcon = document.getElementById('theme-toggle-icon');
+            const themeText = document.getElementById('theme-toggle-text');
+            const themeBtn = document.getElementById('btn-theme-toggle');
+
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                appState.theme = 'light';
+                if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-amber-500';
+                if (themeText) themeText.innerText = 'Claro';
+                if (themeBtn) {
+                    themeBtn.classList.remove('bg-slate-800', 'text-purple-300', 'border-slate-700');
+                    themeBtn.classList.add('bg-white', 'text-slate-800', 'border-slate-300');
+                }
+                showToast('☀️ Modo Claro ativado!');
+            } else {
+                htmlEl.classList.add('dark');
+                appState.theme = 'dark';
+                if (themeIcon) themeIcon.className = 'fa-solid fa-moon text-purple-400';
+                if (themeText) themeText.innerText = 'Escuro';
+                if (themeBtn) {
+                    themeBtn.classList.remove('bg-white', 'text-slate-800', 'border-slate-300');
+                    themeBtn.classList.add('bg-slate-800', 'text-purple-300', 'border-slate-700');
+                }
+                showToast('🌙 Modo Escuro ativado!');
+            }
+        }
+
+        // CONTROLADOR DE ABAS DA APLICAÇÃO
+        function switchTab(tabId) {
+            appState.activeTab = tabId;
+            document.querySelectorAll('.app-tab').forEach(t => t.classList.add('hidden'));
+            document.getElementById(`app-tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.app-nav-btn').forEach(btn => {
+                btn.classList.remove('text-purple-400');
+                btn.classList.add('text-slate-500');
+            });
+
+            const activeNav = document.getElementById(`nav-tab-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('text-purple-400');
+                activeNav.classList.remove('text-slate-500');
+            }
+
+            if (tabId === 'tree') renderTreeNodes();
+            if (tabId === 'flashcards') renderFlashcard();
+        }
+
+        // RENDERIZAÇÃO DA ÁRVORE DE PRÉ-REQUISITOS
+        function changeTreeSubject(val) {
+            appState.treeSubject = val;
+            renderTreeNodes();
+        }
+
+        function renderTreeNodes() {
+            const container = document.getElementById('tree-nodes-wrapper');
+            const subj = appState.subjects[appState.treeSubject];
+            if (!container || !subj) return;
+
+            container.innerHTML = '';
+
+            subj.nodes.forEach((node, index) => {
+                let badgeClass = 'bg-slate-800 text-slate-400';
+                let borderClass = 'border-slate-800';
+                
+                if (node.status === 'completed') {
+                    badgeClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+                    borderClass = 'border-emerald-500/40 bg-emerald-950/10';
+                } else if (node.status === 'in_progress') {
+                    badgeClass = 'bg-amber-500/20 text-amber-400 border border-amber-500/30';
+                    borderClass = 'border-amber-500/40 bg-amber-950/10';
+                }
+
+                container.innerHTML += `
+                    <div class="glass-card p-4 rounded-2xl border ${borderClass} space-y-2 relative">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeClass}">
+                                ${node.status === 'completed' ? '✓ Concluído' : node.status === 'in_progress' ? '⏳ Em Andamento' : '🔒 A Fazer'}
+                            </span>
+                            <span class="text-[10px] font-mono text-slate-400">${node.difficulty}</span>
+                        </div>
+                        <h4 class="font-bold text-xs text-white">${node.title}</h4>
+                        <p class="text-[11px] text-slate-400">${node.desc}</p>
+                        
+                        <div class="pt-2 flex items-center justify-between border-t border-slate-800/80">
+                            <span class="text-[9px] text-slate-500 uppercase font-mono">Alterar Status:</span>
+                            <select onchange="updateNodeStatus('${node.id}', this.value)" class="bg-slate-900 border border-slate-700 text-[10px] text-white font-bold rounded-lg px-2 py-1 focus:outline-none">
+                                <option value="todo" ${node.status === 'todo' ? 'selected' : ''}>A Fazer</option>
+                                <option value="in_progress" ${node.status === 'in_progress' ? 'selected' : ''}>Em Andamento</option>
+                                <option value="completed" ${node.status === 'completed' ? 'selected' : ''}>Concluído (+XP)</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+
+                if (index < subj.nodes.length - 1) {
+                    container.innerHTML += `
+                        <div class="flex justify-center my-1 text-purple-400 text-xs">
+                            <i class="fa-solid fa-arrow-down animate-bounce"></i>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function updateNodeStatus(nodeId, newStatus) {
+            const subj = appState.subjects[appState.treeSubject];
+            const node = subj.nodes.find(n => n.id === nodeId);
+            if (node) {
+                node.status = newStatus;
+                if (newStatus === 'completed') {
+                    addXP(75);
+                    triggerConfetti();
+                }
+                renderTreeNodes();
+                updateDashboardStats();
+                showToast(`Node "${node.title}" atualizado!`);
+            }
+        }
+
+        // SISTEMA DE FLASHCARDS
+        function getFilteredCards() {
+            if (appState.activeFCFilter === 'all') return appState.flashcards;
+            return appState.flashcards.filter(c => c.diff === appState.activeFCFilter);
+        }
+
+        function filterCards(diff) {
+            appState.activeFCFilter = diff;
+            appState.currentFCIndex = 0;
+
+            document.querySelectorAll('.fc-filter-btn').forEach(b => {
+                b.classList.remove('bg-purple-600', 'text-white');
+            });
+            event.target.classList.add('bg-purple-600', 'text-white');
+
+            renderFlashcard();
+        }
+
+        function renderFlashcard() {
+            const cards = getFilteredCards();
+            const innerBox = document.getElementById('flashcard-inner-box');
+            if (innerBox) innerBox.classList.remove('rotate-y-180');
+            document.getElementById('fc-hint-container').classList.add('hidden');
+
+            if (cards.length === 0) {
+                document.getElementById('fc-front-text').innerText = 'Nenhum flashcard nesta categoria.';
+                document.getElementById('fc-counter').innerText = '0 de 0';
+                return;
+            }
+
+            if (appState.currentFCIndex >= cards.length) appState.currentFCIndex = 0;
+            if (appState.currentFCIndex < 0) appState.currentFCIndex = cards.length - 1;
+
+            const card = cards[appState.currentFCIndex];
+            document.getElementById('fc-counter').innerText = `Card ${appState.currentFCIndex + 1} de ${cards.length}`;
+            document.getElementById('fc-topic-tag').innerText = card.topic;
+            document.getElementById('fc-diff-tag').innerText = card.diff === 'Fácil' ? '🟢 Fácil' : card.diff === 'Médio' ? '🟡 Médio' : '🔴 Difícil';
+            document.getElementById('fc-front-text').innerText = card.front;
+            document.getElementById('fc-back-text').innerText = card.back;
+            document.getElementById('fc-hint-text').innerText = card.hint || 'Sem dica.';
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard-inner-box').classList.toggle('rotate-y-180');
+        }
+
+        function toggleHint() {
+            document.getElementById('fc-hint-container').classList.toggle('hidden');
+        }
+
+        function rateCard(rating) {
+            addXP(20);
+            showToast(`Card avaliado como [${rating}] +20 XP!`);
+            nextCard();
+        }
+
+        function nextCard() {
+            const cards = getFilteredCards();
+            if (cards.length === 0) return;
+            appState.currentFCIndex = (appState.currentFCIndex + 1) % cards.length;
+            renderFlashcard();
+        }
+
+        function prevCard() {
+            const cards = getFilteredCards();
+            if (cards.length === 0) return;
+            appState.currentFCIndex = (appState.currentFCIndex - 1 + cards.length) % cards.length;
+            renderFlashcard();
+        }
+
+        function saveNewFlashcard(e) {
+            e.preventDefault();
+            const front = document.getElementById('new-fc-front').value;
+            const back = document.getElementById('new-fc-back').value;
+            const diff = document.getElementById('new-fc-diff').value;
+            const hint = document.getElementById('new-fc-hint').value;
+
+            appState.flashcards.push({
+                id: Date.now(),
+                topic: 'Geral',
+                diff,
+                front,
+                back,
+                hint
+            });
+
+            closeModal('modal-add-fc');
+            document.getElementById('new-fc-front').value = '';
+            document.getElementById('new-fc-back').value = '';
+            document.getElementById('new-fc-hint').value = '';
+
+            addXP(30);
+            renderFlashcard();
+            showToast('Novo Flashcard adicionado com sucesso!');
+        }
+
+        // TIMER POMODORO
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer-start');
+            if (appState.timerRunning) {
+                clearInterval(appState.timerInterval);
+                appState.timerRunning = false;
+                btn.innerHTML = '<i class="fa-solid fa-play"></i> Continuar';
+            } else {
+                appState.timerRunning = true;
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i> Pausar';
+                appState.timerInterval = setInterval(() => {
+                    appState.timerSeconds--;
+                    updateTimerUI();
+                    if (appState.timerSeconds <= 0) {
+                        clearInterval(appState.timerInterval);
+                        appState.timerRunning = false;
+                        addXP(100);
+                        triggerConfetti();
+                        showToast('🎉 Ciclo Pomodoro Concluído! +100 XP!');
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(appState.timerInterval);
+            appState.timerRunning = false;
+            appState.timerSeconds = 1500;
+            document.getElementById('btn-timer-start').innerHTML = '<i class="fa-solid fa-play"></i> Iniciar';
+            updateTimerUI();
+        }
+
+        function updateTimerUI() {
+            const mins = Math.floor(appState.timerSeconds / 60);
+            const secs = appState.timerSeconds % 60;
+            document.getElementById('timer-display').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            const circle = document.getElementById('timer-progress-circle');
+            const progress = appState.timerSeconds / appState.timerTotal;
+            const offset = 502 * (1 - progress);
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // WEB AUDIO API SYNTHESIZER (SOM AMBIENTE BINAURAL / CHUVA)
+        function toggleAmbientSound(type) {
+            if (!appState.audioCtx) {
+                appState.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (appState.activeAudioType === type) {
+                // Turn Off
+                stopSynthSound();
+                appState.activeAudioType = null;
+                document.getElementById('audio-status-tag').innerText = 'DESLIGADO';
+                showToast('Som ambiente desligado');
+                return;
+            }
+
+            stopSynthSound();
+            appState.activeAudioType = type;
+            document.getElementById('audio-status-tag').innerText = `TOCANDO: ${type.toUpperCase()}`;
+
+            if (type === 'binaural') {
+                // Play Binaural 40Hz Tone
+                appState.oscillator = appState.audioCtx.createOscillator();
+                appState.gainNode = appState.audioCtx.createGain();
+                appState.oscillator.type = 'sine';
+                appState.oscillator.frequency.setValueAtTime(220, appState.audioCtx.currentTime); // 220Hz
+                appState.gainNode.gain.setValueAtTime(0.08, appState.audioCtx.currentTime);
+                appState.oscillator.connect(appState.gainNode);
+                appState.gainNode.connect(appState.audioCtx.destination);
+                appState.oscillator.start();
+            } else if (type === 'rain') {
+                // Play Synthetic Pink/White Noise for Rain
+                const bufferSize = appState.audioCtx.sampleRate * 2;
+                const buffer = appState.audioCtx.createBuffer(1, bufferSize, appState.audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = appState.audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                noise.loop = true;
+
+                appState.gainNode = appState.audioCtx.createGain();
+                appState.gainNode.gain.setValueAtTime(0.05, appState.audioCtx.currentTime);
+                noise.connect(appState.gainNode);
+                appState.gainNode.connect(appState.audioCtx.destination);
+                noise.start();
+                appState.oscillator = noise;
+            }
+
+            showToast(`Sintetizador ativado: ${type}`);
+        }
+
+        function stopSynthSound() {
+            if (appState.oscillator) {
+                try { appState.oscillator.stop(); } catch(e){}
+                appState.oscillator = null;
+            }
+        }
+
+        // CHAT ASSISTENTE DE ESTUDOS NOVA AI
+        function handleAIChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-chat-input');
+            const query = input.value.trim();
+            if (!query) return;
+
+            const chatBox = document.getElementById('ai-chat-messages');
+
+            // Add User Message
+            chatBox.innerHTML += `
+                <div class="flex items-start gap-2 justify-end">
+                    <div class="bg-purple-600/30 p-2.5 rounded-2xl rounded-tr-none border border-purple-500/40 text-purple-100">
+                        ${escapeHtml(query)}
+                    </div>
+                </div>
+            `;
+
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Simulated AI Response
+            setTimeout(() => {
+                let reply = "Essa é uma excelente pergunta! Para dominar este tópico, tente dividi-lo em 3 etapas de estudo com nossos Flashcards.";
+                if (query.toLowerCase().includes('vetor') || query.toLowerCase().includes('matriz')) {
+                    reply = "Em Álgebra Linear, pense nos vetores como setas com **direção, sentido e módulo**. Para multiplicá-los por matrizes, use a transformação linear!";
+                } else if (query.toLowerCase().includes('fração') || query.toLowerCase().includes('calculo')) {
+                    reply = "Lembre-se: para somar frações com denominadores diferentes, primeiro encontre o **MMC** para igualar as partes!";
+                }
+
+                chatBox.innerHTML += `
+                    <div class="flex items-start gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-cyan-500 flex items-center justify-center text-[10px] font-bold text-slate-950 shrink-0">AI</div>
+                        <div class="bg-slate-900 p-2.5 rounded-2xl rounded-tl-none border border-slate-800 text-slate-200">
+                            ${reply}
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
+        }
+
+        // XP & GAMIFICATION
+        function addXP(amount) {
+            appState.xp += amount;
+            document.getElementById('user-xp').innerText = appState.xp.toLocaleString();
+            
+            // Update Bar
+            const percent = Math.min(100, Math.round((appState.xp / 2000) * 100));
+            document.getElementById('xp-bar').style.width = `${percent}%`;
+        }
+
+        function claimQuestXP(btn, xpAmount) {
+            btn.disabled = true;
+            btn.className = 'w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-xs';
+            addXP(xpAmount);
+            triggerConfetti();
+            showToast(`Missão resgatada! +${xpAmount} XP!`);
+        }
+
+        function updateDashboardStats() {
+            let done = 0, inprog = 0, todo = 0;
+            Object.values(appState.subjects).forEach(s => {
+                s.nodes.forEach(n => {
+                    if (n.status === 'completed') done++;
+                    if (n.status === 'in_progress') inprog++;
+                    if (n.status === 'todo') todo++;
+                });
+            });
+            document.getElementById('dash-completed').innerText = done;
+            document.getElementById('dash-inprogress').innerText = inprog;
+            document.getElementById('dash-todo').innerText = todo;
+        }
+
+        // HELPERS (TOAST, MODALS, CONFETTI)
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900 text-white border border-purple-500/40 px-3 py-2 rounded-xl text-xs font-bold shadow-xl flex items-center gap-2 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-sparkles text-amber-400"></i> ${escapeHtml(msg)}`;
+            box.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function openAddCardModal() {
+            document.getElementById('modal-add-fc').classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // INICIALIZAÇÃO
+        window.onload = function() {
+            renderTreeNodes();
+            renderFlashcard();
+            updateDashboardStats();
+        };
+    </script>
+</body>
+</html>
